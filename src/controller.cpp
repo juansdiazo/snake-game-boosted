@@ -10,15 +10,16 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
 }
 
 void Controller::HandleInput(bool &running, Snake &snake) const {
-  SDL_Event e;
-  while (SDL_PollEvent(&e)) {
+  SDL_Event e; // A union that contains structures for event types
+  // poll for currently pending events
+  while (SDL_PollEvent(&e)) { // event passed as reference
     if (e.type == SDL_QUIT) {
       running = false;
-    } else if (e.type == SDL_KEYDOWN) {
+    } else if (e.type == SDL_KEYDOWN) { // check if event is a key press
       switch (e.key.keysym.sym) {
         case SDLK_UP:
-          ChangeDirection(snake, Snake::Direction::kUp,
-                          Snake::Direction::kDown);
+          ChangeDirection(snake, Snake::Direction::kUp, // input dir.
+                          Snake::Direction::kDown); // opposite dir.
           break;
 
         case SDLK_DOWN:
