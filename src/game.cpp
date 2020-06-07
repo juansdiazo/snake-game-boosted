@@ -5,9 +5,10 @@
 Game::Game(std::size_t grid_width, std::size_t grid_height) // game constructor
     : snake(grid_width, grid_height), // initialize snake
       engine(dev()), // initialize seed
-      random_w(0, static_cast<int>(grid_width)), // in grid range 
-      random_h(0, static_cast<int>(grid_height)) {
+      random_w(0, static_cast<int>(grid_width-1)), // in grid range 
+      random_h(0, static_cast<int>(grid_height-1)) {
   PlaceFood(); 
+  PlaceObstacle(grid_width/4, grid_height/4, grid_width/2, grid_height/2);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -25,7 +26,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop (1 frame)
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, obstacle);
 
     frame_end = SDL_GetTicks(); // timestamp of frame end
 
@@ -53,7 +54,7 @@ void Game::PlaceFood() {
     x = random_w(engine);
     y = random_h(engine);
     // Check location is not occupied by snake before placing food.
-    if (!snake.SnakeCell(x, y)) {
+    if (!snake.SnakeCell(x, y) && !ObstacleCell(x,y)) {
       food.x = x;
       food.y = y;
       return;
@@ -69,6 +70,10 @@ void Game::Update() {
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
 
+  if (ObstacleCell(new_x,new_y)) {
+    snake.alive = false; // happens when head touches obstacle
+  }
+
   // Check if there's food in this new position
   if (food.x == new_x && food.y == new_y) {// If so do 4 things:
     score++; // 1. increase score
@@ -80,3 +85,23 @@ void Game::Update() {
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+
+void Game::PlaceObstacle(int x, int y, int w, int h) {
+  obstacle.x = x;
+  obstacle.y = y;
+  obstacle.w = w;
+  obstacle.h = h;
+}
+
+//check if cell is occupied by obstacle
+bool Game::ObstacleCell(int x, int y) {
+  int left, right, top, bottom;
+  
+  left = obstacle.x;
+  right = obstacle.x + obstacle.w;
+  top = obstacle.y;
+  bottom = obstacle.y + obstacle.h;
+
+  // true if cell is within the rectangle boundaries
+  return ((x >= left && x < right) && (y >= top && y < bottom));  
+}

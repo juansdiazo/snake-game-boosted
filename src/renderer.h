@@ -13,7 +13,7 @@ class Renderer {
   ~Renderer();
 
   // public methods of renderer object
-  void Render(Snake const snake, SDL_Point const &food); // render snake and food to screen
+  void Render(Snake const snake, SDL_Point const &food, SDL_Rect const &obstacle); // render snake and food to screen
   void UpdateWindowTitle(int score, int fps); // update bar at top of window
 
  private:

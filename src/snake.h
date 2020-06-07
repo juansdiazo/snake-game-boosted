@@ -12,8 +12,8 @@ class Snake {
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-        head_x(grid_width / 2), // starts in the middle of screen
-        head_y(grid_height / 2) {}
+        head_x(0), // starts in left-upper corner
+        head_y(grid_height) {}
 
   // public methods of snake object
   void Update(); // every loop
