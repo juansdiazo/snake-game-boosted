@@ -37,14 +37,24 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food) { // pass snake and food
+void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Rect const &obstacle) { // pass snake and food
   SDL_Rect block; // Rectangle block with a width and a height
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
 
+  SDL_Rect obstacle_scaled;
+
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF); // black (obj,r,g,b,a)
   SDL_RenderClear(sdl_renderer); // draws black on entire block
+
+  // Render obstacle
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF); // red
+  obstacle_scaled.x = obstacle.x * block.w;
+  obstacle_scaled.y = obstacle.y * block.h;
+  obstacle_scaled.w = obstacle.w * block.w;
+  obstacle_scaled.h = obstacle.h * block.h;
+  SDL_RenderFillRect(sdl_renderer, &obstacle_scaled); // fill block with color and render
 
   // Render food
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // yellow
@@ -66,7 +76,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) { // pass snake 
   if (snake.alive) {
     SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF); // alive color
   } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF); // dead color
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF); // dead color
   }
   SDL_RenderFillRect(sdl_renderer, &block);
 

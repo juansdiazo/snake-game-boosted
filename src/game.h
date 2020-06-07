@@ -18,6 +18,8 @@ class Game {
   int GetScore() const;
   int GetSize() const;
 
+  SDL_Rect obstacle;
+  
  private:
  // private attributes of game object
   Snake snake;
@@ -32,6 +34,9 @@ class Game {
   // private methods of game object
   void PlaceFood();
   void Update();
+
+  void PlaceObstacle(int x, int y, int w, int h);
+  bool ObstacleCell(int x, int y); 
 };
 
 #endif
