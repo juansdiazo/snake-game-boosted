@@ -15,8 +15,10 @@ class Game {
   // public methods of game object
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
-  int GetScore() const;
+  //int GetScore() const;
+  int score = 0;
   int GetSize() const;
+  void HighScore();
 
   SDL_Rect obstacle;
   
@@ -24,7 +26,7 @@ class Game {
  // private attributes of game object
   Snake snake;
   SDL_Point food;
-  int score{0};
+  //int score{0};
 
   std::random_device dev; // used as seed for random device
   std::mt19937 engine; // pseudo-rnd-num-gen uses mersenne_twister alg.

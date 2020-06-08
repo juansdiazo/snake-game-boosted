@@ -1,6 +1,11 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include <fstream>
+
+#include <sstream>
+#include <string>
+#include <map>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height) // game constructor
     : snake(grid_width, grid_height), // initialize snake
@@ -83,7 +88,7 @@ void Game::Update() {
   }
 }
 
-int Game::GetScore() const { return score; }
+// int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
 
 void Game::PlaceObstacle(int x, int y, int w, int h) {
@@ -104,4 +109,56 @@ bool Game::ObstacleCell(int x, int y) {
 
   // true if cell is within the rectangle boundaries
   return ((x >= left && x < right) && (y >= top && y < bottom));  
+}
+
+void Game::HighScore(){
+    std::string line, name, str_score;
+    // multimap as it allows keys with same value and sort in ascending order
+    std::multimap<int, std::string, std::greater<int>> top_five; 
+
+    std::ifstream input_file;
+    input_file.open("/home/juan/Documents/cpp/CppND-Capstone-Snake-Game/highscores.txt");
+    
+    // Read highscores file and store in multimap
+    if(input_file){ 
+        while (getline(input_file,line)){ 
+            std::istringstream line_stream(line);
+            while (line_stream >> str_score >> name){
+                int score_int = std::stoi(str_score);
+                top_five.insert({score_int, name});   
+            }
+        } 
+    }
+    else
+    {
+        std::cout << "Problem creating file stream! \n"; 
+    }
+    input_file.close();
+    //int new_score = Game::GetScore();
+    std::string new_name;
+    
+    // create iterator to position of <key,value> pair in position 5 
+    std::multimap<int, std::string, std::greater<int>>::iterator pos_five_ite = top_five.end();
+    std::advance(pos_five_ite, -1); 
+    int pos_five_score = top_five.rbegin()->first; // score in position 5 (rbegin pointer one before end)
+
+    if (score >= pos_five_score) // update if score in top 5
+    {
+        top_five.erase(pos_five_ite); // erase position 5 entry 
+        std::cout << "Enter your name: ";
+        std::cin >> new_name;
+        top_five.insert({score,new_name}); // new entry
+    }
+
+    std::ofstream output_file; 
+    output_file.open("/home/juan/Documents/cpp/CppND-Capstone-Snake-Game/highscores.txt");
+   
+    std::cout << "\nTOP 5 HIGHSCORES \n";
+    std::cout << "\nSCORE \t NAME\n";
+
+    for (auto itr = top_five.begin(); itr != top_five.end(); ++itr) {  
+        std::cout << itr->first << '\t' << itr->second << '\n'; // printed to screen
+        output_file << itr->first << " " << itr->second << '\n';  // saved in file (in ascending order)
+    }
+    output_file.close(); 
 }
