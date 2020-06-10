@@ -117,7 +117,7 @@ void Game::HighScore(){
     std::multimap<int, std::string, std::greater<int>> top_five; 
 
     std::ifstream input_file;
-    input_file.open("/home/juan/Documents/cpp/CppND-Capstone-Snake-Game/highscores.txt");
+    input_file.open("../highscores.txt");
     
     // Read highscores file and store in multimap
     if(input_file){ 
@@ -151,7 +151,7 @@ void Game::HighScore(){
     }
 
     std::ofstream output_file; 
-    output_file.open("/home/juan/Documents/cpp/CppND-Capstone-Snake-Game/highscores.txt");
+    output_file.open("../highscores.txt");
    
     std::cout << "\nTOP 5 HIGHSCORES \n";
     std::cout << "\nSCORE \t NAME\n";
