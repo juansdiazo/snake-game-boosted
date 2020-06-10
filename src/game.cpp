@@ -12,8 +12,8 @@ Game::Game(std::size_t grid_width, std::size_t grid_height) // game constructor
       engine(dev()), // initialize seed
       random_w(0, static_cast<int>(grid_width-1)), // in grid range 
       random_h(0, static_cast<int>(grid_height-1)) {
-  PlaceFood(); 
   PlaceObstacle(grid_width/4, grid_height/4, grid_width/2, grid_height/2);
+  PlaceFood();   
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
