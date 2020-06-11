@@ -15,7 +15,6 @@ Game::Game(std::size_t grid_width, std::size_t grid_height,
       engine(dev()), // initialize seed
       random_w(0, static_cast<int>(grid_width-1)), // in grid range 
       random_h(0, static_cast<int>(grid_height-1)) {
-  //PlaceObstacle(grid_width/4, grid_height/4, grid_width/2, grid_height/2);
   PlaceFood(); 
 }
 
@@ -48,24 +47,18 @@ void Game::RunLevel(std::size_t target_frame_duration) {
     while (true) {
       frame_start = SDL_GetTicks(); // timestamp of frame start
 
-      // Input, Update, Render - the main game loop (1 frame)
+      // Render, Input, Update - the main game loop (1 frame)
       renderer.Render(snake, food, level);
-
       controller.HandleInput(snake);
-
       if (controller.quit) {
         return;
       }
-
-      if (level.food_count >= 1) {
+      if (level.food_count >= 5) {
         break;    
       }
-
-      
       Update();
 
       frame_end = SDL_GetTicks(); // timestamp of frame end
-
       frame_count++; // increase counter (keep track of frames every render)
       frame_duration = frame_end - frame_start; // duration of this frame 
 
@@ -75,8 +68,8 @@ void Game::RunLevel(std::size_t target_frame_duration) {
         frame_count = 0;
         title_timestamp = frame_end;
       }
-      // Time control: If frame_duration is smaller than target, delay 
-      // the loop to achieve correct frame rate (nice/smooth gameplay)
+
+      // Time control: delay to achieve correct frame rate 
       if (frame_duration < target_frame_duration) {
         SDL_Delay(target_frame_duration - frame_duration);
       }
@@ -105,7 +98,6 @@ void Game::Update() {
   }
 }
 
-// int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
 
 void Game::PlaceFood() {
@@ -121,28 +113,6 @@ void Game::PlaceFood() {
     }
   }
 }
-
-/*
-void Game::PlaceObstacle(int x, int y, int w, int h) {
-  obstacle.x = x;
-  obstacle.y = y;
-  obstacle.w = w;
-  obstacle.h = h;
-}
-
-//check if cell is occupied by obstacle
-bool Game::ObstacleCell(int x, int y) {
-  int left, right, top, bottom;
-  
-  left = obstacle.x;
-  right = obstacle.x + obstacle.w;
-  top = obstacle.y;
-  bottom = obstacle.y + obstacle.h;
-
-  // true if cell is within the rectangle boundaries
-  return ((x >= left && x < right) && (y >= top && y < bottom));  
-}
-*/
 
 void Game::HighScore(){
     std::string line, name, str_score;
@@ -167,7 +137,6 @@ void Game::HighScore(){
         std::cout << "Problem creating file stream! \n"; 
     }
     input_file.close();
-    //int new_score = Game::GetScore();
     std::string new_name;
     
     // create iterator to position of <key,value> pair in position 5 
@@ -178,6 +147,7 @@ void Game::HighScore(){
     if (score >= pos_five_score) // update if score in top 5
     {
         top_five.erase(pos_five_ite); // erase position 5 entry 
+        std::cout << "You made it to the hall of fame! \n";
         std::cout << "Enter your name: ";
         std::cin >> new_name;
         top_five.insert({score,new_name}); // new entry
@@ -193,5 +163,6 @@ void Game::HighScore(){
         std::cout << itr->first << '\t' << itr->second << '\n'; // printed to screen
         output_file << itr->first << " " << itr->second << '\n';  // saved in file (in ascending order)
     }
+    std::cout << "\n";
     output_file.close(); 
 }

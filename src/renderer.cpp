@@ -57,13 +57,6 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
     obstacle_scaled.h = obstacle.h * block.h;
     SDL_RenderFillRect(sdl_renderer, &obstacle_scaled);
   }
-  /*
-  obstacle_scaled.x = obstacle.x * block.w;
-  obstacle_scaled.y = obstacle.y * block.h;
-  obstacle_scaled.w = obstacle.w * block.w;
-  obstacle_scaled.h = obstacle.h * block.h;
-  SDL_RenderFillRect(sdl_renderer, &obstacle_scaled); // fill block with color and render
-  */
 
   // Render food
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // yellow
@@ -83,9 +76,9 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
   block.x = static_cast<int>(snake.head_x) * block.w; // cast to int because
   block.y = static_cast<int>(snake.head_y) * block.h; // head coord. are float
   if (snake.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF); // alive color
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF); // blue (alive)
   } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF); // dead color
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF); // green (dead)
   }
   SDL_RenderFillRect(sdl_renderer, &block);
 

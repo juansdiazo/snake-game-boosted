@@ -18,8 +18,6 @@ int main() {
 
   // Printout at the end of the game
   std::cout << "Game has terminated successfully!\n";
-  //std::cout << "Score: " << game.GetScore() << "\n";
   game.HighScore();
-  std::cout << "Size: " << game.GetSize() << "\n";
   return 0;
 }

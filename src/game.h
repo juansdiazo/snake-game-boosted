@@ -4,7 +4,6 @@
 #include <random>
 #include "SDL.h"
 #include "controller.h"
-#include "renderer.h"
 #include "snake.h"
 #include "level.h"
 #include "controller.h"
@@ -45,9 +44,6 @@ class Game {
   // private methods of game object
   void PlaceFood();
   void Update();
-
-  //void PlaceObstacle(int x, int y, int w, int h);
-  //bool ObstacleCell(int x, int y); 
 };
 
 #endif

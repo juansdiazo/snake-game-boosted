@@ -1,88 +1,62 @@
-#include "level.h"
-
 #include <vector>
 #include "SDL.h"
+#include "level.h"
 
 void Level::UpdateLevel() {
   // Update obstacles depending on the level
   switch (level_number) // origin is the upper left corner (in SDL)
   {
-    case 1:
-    {
+    case 1: {
       obstacles.clear();
       food_count = 0; 
       break;
     }
-    case 2:
-    {  
+    case 2: {  
       // 1 obstacle (x, y, w, h)
       obstacles.clear();
-      SDL_Rect obstacle2{grid_width/4, grid_height/4, grid_width/2, grid_height/2}; 
-      obstacles.push_back(obstacle2);
+      addObstacle(grid_width/4, grid_height/4, grid_width/2, grid_height/2);
       food_count = 0;
       break;
     }
-    case 3:
-    {    
+    case 3: {    
       // 2 obstacles
       obstacles.clear();
-      SDL_Rect obstacle31{grid_width/8, grid_height/8, grid_width*3/8, grid_height*3/8};
-      obstacles.push_back(obstacle31); 
-      SDL_Rect obstacle32{grid_width/2, grid_height/2, grid_width*3/8, grid_height*3/8}; 
-      obstacles.push_back(obstacle32);
+      addObstacle(grid_width/8, grid_height/8, grid_width*3/8, grid_height*3/8);
+      addObstacle(grid_width/2, grid_height/2, grid_width*3/8, grid_height*3/8);
       food_count = 0;
-      break;
-      
-    }
-    
-    case 4:
-    {
+      break;   
+    } 
+    case 4: {
       // 4 obstacles
       obstacles.clear();
-      SDL_Rect obstacle31{grid_width/8, grid_height/8, grid_width/8, grid_height*3/4};
-      obstacles.push_back(obstacle31); 
-      SDL_Rect obstacle32{grid_width*3/8, grid_height/8, grid_width/4, grid_height/8}; 
-      obstacles.push_back(obstacle32);
-      SDL_Rect obstacle33{grid_width*6/8, grid_height/8, grid_width/8, grid_height*3/4}; 
-      obstacles.push_back(obstacle33);
-      SDL_Rect obstacle34{grid_width*3/8, grid_height*6/8, grid_width/4, grid_height/8}; 
-      obstacles.push_back(obstacle34);
+      addObstacle(grid_width/8, grid_height/8, grid_width/8, grid_height*3/4);
+      addObstacle(grid_width*3/8, grid_height/8, grid_width/4, grid_height/8);
+      addObstacle(grid_width*6/8, grid_height/8, grid_width/8, grid_height*3/4);
+      addObstacle(grid_width*3/8, grid_height*6/8, grid_width/4, grid_height/8);
       food_count = 0;
-      break;  
-      
+      break;    
     }
-
-    case 5:
-    {
+    case 5: {
       // 9 obstacles
       obstacles.clear();
-      SDL_Rect obstacle31{grid_width/8, grid_height/8, grid_width/8, grid_height/8};
-      obstacles.push_back(obstacle31); 
-      SDL_Rect obstacle32{grid_width*3/8, grid_height/8, grid_width/8, grid_height/8}; 
-      obstacles.push_back(obstacle32);
-      SDL_Rect obstacle33{grid_width*5/8, grid_height/8, grid_width/8, grid_height/8}; 
-      obstacles.push_back(obstacle33);
-
-      SDL_Rect obstacle34{0, grid_height*3/8, grid_width/4, grid_height/4};
-      obstacles.push_back(obstacle34); 
-      SDL_Rect obstacle35{grid_width*3/8, grid_height*3/8, grid_width/4, grid_height/4}; 
-      obstacles.push_back(obstacle35);
-      SDL_Rect obstacle36{grid_width*3/4, grid_height*3/8, grid_width/4, grid_height/4}; 
-      obstacles.push_back(obstacle36);
-
-      SDL_Rect obstacle37{grid_width/4, grid_height*3/4, grid_width/8, grid_height/8};
-      obstacles.push_back(obstacle37); 
-      SDL_Rect obstacle38{grid_width/2, grid_height*3/4, grid_width/8, grid_height/8}; 
-      obstacles.push_back(obstacle38);
-      SDL_Rect obstacle39{grid_width*3/4, grid_height*3/4, grid_width/8, grid_height/8}; 
-      obstacles.push_back(obstacle39);
-
-
-
+      addObstacle(grid_width/8, grid_height/8, grid_width/8, grid_height/8);
+      addObstacle(grid_width*3/8, grid_height/8, grid_width/8, grid_height/8);
+      addObstacle(grid_width*5/8, grid_height/8, grid_width/8, grid_height/8);
+      addObstacle(0, grid_height*3/8, grid_width/4, grid_height/4);
+      addObstacle(grid_width*3/8, grid_height*3/8, grid_width/4, grid_height/4);
+      addObstacle(grid_width*3/4, grid_height*3/8, grid_width/4, grid_height/4);
+      addObstacle(grid_width/4, grid_height*3/4, grid_width/8, grid_height/8);
+      addObstacle(grid_width/2, grid_height*3/4, grid_width/8, grid_height/8);
+      addObstacle(grid_width*3/4, grid_height*3/4, grid_width/8, grid_height/8);
       food_count = 0;
       break;
     }
   }
+}
+
+void Level::addObstacle(int x_position, int y_position, int width, int height){ // position wrt grid
+  SDL_Rect obstacle{x_position, y_position, width, height}; 
+  obstacles.push_back(obstacle);
 }
 
 //check if cell is occupied by obstacle
