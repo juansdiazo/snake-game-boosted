@@ -4,17 +4,18 @@
 #include "snake.h"
 
 void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
-                                 Snake::Direction opposite) const {
+                                 Snake::Direction opposite) {
   if (snake.direction != opposite || snake.size == 1) snake.direction = input;
   return;
 }
 
-void Controller::HandleInput(bool &running, Snake &snake) const {
+void Controller::HandleInput(Snake &snake){
   SDL_Event e; // A union that contains structures for event types
   // poll for currently pending events
   while (SDL_PollEvent(&e)) { // event passed as reference
     if (e.type == SDL_QUIT) {
-      running = false;
+      quit = true;
+      return;
     } else if (e.type == SDL_KEYDOWN) { // check if event is a key press
       switch (e.key.keysym.sym) {
         case SDLK_UP:
@@ -38,5 +39,10 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
           break;
       }
     }
+  }
+  const Uint8* keystates = SDL_GetKeyboardState(NULL);
+  if (keystates[SDL_SCANCODE_ESCAPE] != 0u) {
+    quit = true;
+    return;
   }
 }

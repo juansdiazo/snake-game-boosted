@@ -3,13 +3,14 @@
 
 #include "snake.h"
 
-class Controller { // just 2 methods
+class Controller { 
  public: 
-  void HandleInput(bool &running, Snake &snake) const;
+  void HandleInput(Snake &snake);
+  bool quit{false};
 
  private:
   void ChangeDirection(Snake &snake, Snake::Direction input,
-                       Snake::Direction opposite) const;
+                       Snake::Direction opposite);
 };
 
 #endif
