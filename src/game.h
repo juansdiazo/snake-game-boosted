@@ -6,27 +6,36 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "level.h"
+#include "controller.h"
+#include "renderer.h"
 
 class Game {
  public:
   // game constructor
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t grid_width, std::size_t grid_height, 
+       std::size_t screen_width, std::size_t screen_height);
   
   // public methods of game object
-  void Run(Controller const &controller, Renderer &renderer,
-           std::size_t target_frame_duration);
-  //int GetScore() const;
+  void Run(std::size_t target_frame_duration);
+  void RunLevel(std::size_t target_frame_duration);
+
+  //public attributes of game object;
   int score = 0;
   int GetSize() const;
   void HighScore();
-
-  SDL_Rect obstacle;
+  //SDL_Rect obstacle;
   
  private:
  // private attributes of game object
+  Level level;
+  int current_level{1};
+
   Snake snake;
   SDL_Point food;
-  //int score{0};
+
+  Renderer renderer;
+  Controller controller;
 
   std::random_device dev; // used as seed for random device
   std::mt19937 engine; // pseudo-rnd-num-gen uses mersenne_twister alg.
@@ -37,8 +46,8 @@ class Game {
   void PlaceFood();
   void Update();
 
-  void PlaceObstacle(int x, int y, int w, int h);
-  bool ObstacleCell(int x, int y); 
+  //void PlaceObstacle(int x, int y, int w, int h);
+  //bool ObstacleCell(int x, int y); 
 };
 
 #endif

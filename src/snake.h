@@ -19,6 +19,7 @@ class Snake {
   void Update(); // every loop
   void GrowBody(); // once it eats food
   bool SnakeCell(int x, int y); // is the coordinate part of the snake?
+  void ResetSnake();
 
   // public attributes of snake object
   float speed{0.1f};

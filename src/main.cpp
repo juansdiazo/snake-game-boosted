@@ -1,7 +1,5 @@
 #include <iostream>
-#include "controller.h"
 #include "game.h"
-#include "renderer.h"
 
 int main() {
   // Constant expressions that define misc. game settings:
@@ -12,13 +10,11 @@ int main() {
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
-  // Main objects are created:
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
-  Controller controller;
-  Game game(kGridWidth, kGridHeight);
+  // Game object is created:
+  Game game(kGridWidth, kGridHeight, kScreenWidth,kScreenHeight);
 
   // Game loop is started
-  game.Run(controller, renderer, kMsPerFrame);
+  game.Run(kMsPerFrame);
 
   // Printout at the end of the game
   std::cout << "Game has terminated successfully!\n";

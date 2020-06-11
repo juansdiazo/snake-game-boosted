@@ -38,7 +38,6 @@ void Snake::UpdateHead() {
       head_x += speed;
       break;
   }
-
   // Wrap the Snake around to the beginning if going off of the screen.
   head_x = fmod(head_x + grid_width, grid_width); // modulo by grid width
   head_y = fmod(head_y + grid_height, grid_height); // modulo by grid height
@@ -77,4 +76,10 @@ bool Snake::SnakeCell(int x, int y) {
     }
   }
   return false;
+}
+
+void Snake::ResetSnake() {
+  head_x = 0;
+  head_y = grid_height;
+  body.clear();
 }
