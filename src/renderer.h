@@ -15,7 +15,7 @@ class Renderer {
 
   // public methods of renderer object
   void Render(Snake const snake, SDL_Point const &food, Level const level); // render snake, food and level to screen
-  void UpdateWindowTitle(int score, int fps); // update bar at top of window
+  void UpdateWindowTitle(int score, int current_level); // update bar at top of window
 
  private:
   // private attributes

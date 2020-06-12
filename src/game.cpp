@@ -15,6 +15,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height,
       engine(dev()), // initialize seed
       random_w(0, static_cast<int>(grid_width-1)), // in grid range 
       random_h(0, static_cast<int>(grid_height-1)) {
+  level.UpdateLevel();      
   PlaceFood(); 
 }
 
@@ -26,8 +27,11 @@ void Game::Run(std::size_t target_frame_duration) {
     }  
     else {
       level.level_number++;
+      current_level = level.level_number;
       if (level.level_number >= 6){ // levels declared + 1
         level.level_number = 1;
+        current_level = level.level_number;
+        score += 5; // bonus for passing all levels
       }
     }
     
@@ -53,7 +57,7 @@ void Game::RunLevel(std::size_t target_frame_duration) {
       if (controller.quit) {
         return;
       }
-      if (level.food_count >= 5) {
+      if (level.food_count >= 5) { // food in each level
         break;    
       }
       Update();
@@ -64,9 +68,9 @@ void Game::RunLevel(std::size_t target_frame_duration) {
 
       // After every second, update the window title.
       if (frame_end - title_timestamp >= 1000) {
-        renderer.UpdateWindowTitle(score, frame_count);
-        frame_count = 0;
-        title_timestamp = frame_end;
+        renderer.UpdateWindowTitle(score, current_level);
+        // To troubleshoot frames per second (will appear in top bar in level field):
+        // renderer.UpdateWindowTitle(score, frame_count); frame_count = 0; title_timestamp = frame_end;
       }
 
       // Time control: delay to achieve correct frame rate 
@@ -94,7 +98,7 @@ void Game::Update() {
     level.food_count++;
     PlaceFood(); // 2. place new food item in a rnd position
     snake.GrowBody(); // 3. grow snake's body
-    snake.speed += 0.02; // 4. increase snake's speed
+    snake.speed += 0.01; // 4. increase snake's speed
   }
 }
 

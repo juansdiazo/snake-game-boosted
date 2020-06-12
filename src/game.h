@@ -21,6 +21,7 @@ class Game {
 
   //public attributes of game object;
   int score = 0;
+  int current_level = 1;
   int GetSize() const;
   void HighScore();
   //SDL_Rect obstacle;
@@ -28,7 +29,6 @@ class Game {
  private:
  // private attributes of game object
   Level level;
-  int current_level{1};
 
   Snake snake;
   SDL_Point food;

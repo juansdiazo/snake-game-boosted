@@ -6,19 +6,14 @@ void Level::UpdateLevel() {
   // Update obstacles depending on the level
   switch (level_number) // origin is the upper left corner (in SDL)
   {
-    case 1: {
-      obstacles.clear();
-      food_count = 0; 
-      break;
-    }
-    case 2: {  
+    case 1: {  
       // 1 obstacle (x, y, w, h)
       obstacles.clear();
       addObstacle(grid_width/4, grid_height/4, grid_width/2, grid_height/2);
       food_count = 0;
       break;
     }
-    case 3: {    
+    case 2: {    
       // 2 obstacles
       obstacles.clear();
       addObstacle(grid_width/8, grid_height/8, grid_width*3/8, grid_height*3/8);
@@ -26,13 +21,22 @@ void Level::UpdateLevel() {
       food_count = 0;
       break;   
     } 
+    case 3: {
+      // 3 obstacles
+      obstacles.clear();
+      addObstacle(grid_width/8, grid_height/8, grid_width/8, grid_height*3/4);
+      addObstacle(grid_width*7/16, grid_height/8, grid_width/8, grid_height*3/4);
+      addObstacle(grid_width*6/8, grid_height/8, grid_width/8, grid_height*3/4);
+      food_count = 0;
+      break;    
+    }
     case 4: {
       // 4 obstacles
       obstacles.clear();
-      addObstacle(grid_width/8, grid_height/8, grid_width/8, grid_height*3/4);
+      addObstacle(grid_width/8, grid_height/4, grid_width/8, grid_height/2);
       addObstacle(grid_width*3/8, grid_height/8, grid_width/4, grid_height/8);
-      addObstacle(grid_width*6/8, grid_height/8, grid_width/8, grid_height*3/4);
-      addObstacle(grid_width*3/8, grid_height*6/8, grid_width/4, grid_height/8);
+      addObstacle(grid_width*3/4, grid_height/4, grid_width/8, grid_height/2);
+      addObstacle(grid_width*3/8, grid_height*3/4, grid_width/4, grid_height/8);
       food_count = 0;
       break;    
     }

@@ -41,15 +41,14 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
   SDL_Rect block; // Rectangle block with a width and a height
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
-
   SDL_Rect obstacle_scaled;
 
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF); // black (obj,r,g,b,a)
-  SDL_RenderClear(sdl_renderer); // draws black on entire block
+  SDL_RenderClear(sdl_renderer); // set black background on game screen
 
   // Render obstacle
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF); // red
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF); // blue
   for (SDL_Rect const &obstacle : level.obstacles) { // for each obstacle in level obstacles vector
     obstacle_scaled.x = obstacle.x * block.w;
     obstacle_scaled.y = obstacle.y * block.h;
@@ -58,8 +57,8 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
     SDL_RenderFillRect(sdl_renderer, &obstacle_scaled);
   }
 
-  // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // yellow
+  // Render food                       
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF); // red
   block.x = food.x * block.w;
   block.y = food.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block); // fill block with color and render
@@ -76,9 +75,9 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
   block.x = static_cast<int>(snake.head_x) * block.w; // cast to int because
   block.y = static_cast<int>(snake.head_y) * block.h; // head coord. are float
   if (snake.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF); // blue (alive)
-  } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF); // green (dead)
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF); // green (alive)
+  } else {                               
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF); // yellow (dead)
   }
   SDL_RenderFillRect(sdl_renderer, &block);
 
@@ -86,7 +85,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Level const leve
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score, int current_level) {
+  std::string title{"Your Score: " + std::to_string(score) + "\tLevel: " + std::to_string(current_level)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
