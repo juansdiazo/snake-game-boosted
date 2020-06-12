@@ -95,8 +95,8 @@ void Game::Update() {
   // Check if there's food in this new position
   if (food.x == new_x && food.y == new_y) {// If so do 4 things:
     score++; // 1. increase score
-    level.food_count++;
-    PlaceFood(); // 2. place new food item in a rnd position
+    level.food_count++; // 2. increment food count (advancing levels)
+    PlaceFood(); // 2. place new food item in a random position
     snake.GrowBody(); // 3. grow snake's body
     snake.speed += 0.01; // 4. increase snake's speed
   }
