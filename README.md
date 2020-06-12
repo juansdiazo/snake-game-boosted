@@ -40,7 +40,7 @@ To demonstrate this point, sequential pictures of a typical gameplay are shown:
   <tr>
     <td><img src="pics/level4.png" width=260 height=260></td>
     <td><img src="pics/level5-dead.png" width=260 height=260></td>
-    <td><img src="pics/high-scores.png" width=260 height=120></td>
+    <td><img src="pics/high-scores.png" width=260 height=260></td>
   </tr>
  </table>
 
